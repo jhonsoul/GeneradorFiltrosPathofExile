@@ -109,6 +109,17 @@ public class Filtro {
     }
 
     public void setRareza(String operador, String rareza) {
+        switch (rareza) {
+            case "Magico" :
+                rareza = "Magic";
+                break;
+            case "Raro" :
+                rareza = "Rare";
+                break;
+            case "Unico" :
+                rareza = "Unique";
+                break;
+        }
         if (!operador.isEmpty() && !rareza.isEmpty()) {
             this.rareza = simplificacionOperadores("Rarity", operador, rareza);
         }

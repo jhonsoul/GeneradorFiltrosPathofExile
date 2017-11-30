@@ -7,7 +7,6 @@ package vista;
 
 import control.Constantes;
 import java.io.File;
-import java.io.FileReader;
 import javax.swing.JOptionPane;
 import persistencia.AlmacenaFiltro;
 
