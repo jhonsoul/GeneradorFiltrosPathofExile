@@ -6,6 +6,8 @@
 package vista;
 
 import control.Constantes;
+import java.io.File;
+import java.io.FileReader;
 import javax.swing.JOptionPane;
 import persistencia.AlmacenaFiltro;
 
@@ -159,7 +161,7 @@ public class VistaMenu extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String ruta = almacen.rutasAbrir();
         String informacion = almacen.leerFiltro(ruta);
-        if (!informacion.equals("")) {
+        if (new File(ruta).canRead()) {
             setVisible(false);
             editarFiltro.cargarFiltro(ruta, informacion);
             editarFiltro.setVisible(true);

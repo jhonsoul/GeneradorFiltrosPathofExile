@@ -385,11 +385,11 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Clase de objeto");
-        jLabel7.setToolTipText("En el cuadro del frente se debe escribir en ingles la clase del conjunto de los objetos que se desean resaltar, se deben separados por comas, por ejemplo: Currency, Divination Card, Maps, etc.");
+        jLabel7.setToolTipText("Currency, Divination Card, Maps");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Tipo base");
-        jLabel8.setToolTipText("En el cuadro del frente se debe escribir en ingles los nombres de los objetos que se desea resaltar, se deben separa por comas, por ejemplo:  Skin of the Lords, Wildslash Awl, Immortal Call, etc.");
+        jLabel8.setText("Nombre del objeto");
+        jLabel8.setToolTipText("Skin of the Lords, Wildslash Awl, Immortal Call");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Cantidad de huecos");
@@ -655,11 +655,11 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Color del borde");
-        jLabel15.setToolTipText("Puede escribir o seleccionar con el botón el conjunto de número que cambien el color del borde del objeto, por ejemplo, el número debe quedar 255 100 255 150 (el cuarto color es para la opacidad).");
+        jLabel15.setToolTipText("255 100 255 150 (el cuarto color es la transparecia, entre mas alto menos transparente).");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Color del texto");
-        jLabel16.setToolTipText("Puede escribir o seleccionar con el botón el conjunto de número que cambien el color del texto del objeto, por ejemplo, el número debe quedar 255 100 255 150 (el cuarto color es para la opacidad).");
+        jLabel16.setToolTipText("255 100 255 150 (el cuarto color es la transparecia, entre mas alto menos transparente).");
 
         cajaColorBorde.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cajaColorBorde.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -677,7 +677,7 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setText("Color del fondo");
-        jLabel17.setToolTipText("Puede escribir o seleccionar con el botón el conjunto de número que cambien el color del fondo del objeto, por ejemplo, el número debe quedar 255 100 255 150 (el cuarto color es para la opacidad).");
+        jLabel17.setToolTipText("255 100 255 150 (el cuarto color es la transparecia, entre mas alto menos transparente).");
 
         cajaColorFondo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cajaColorFondo.addKeyListener(new java.awt.event.KeyAdapter() {
