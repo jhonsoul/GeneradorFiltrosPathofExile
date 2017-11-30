@@ -103,7 +103,10 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         
         //Nivel del objeto
         if (comboOpera1.getSelectedIndex() > 0 && comboNivel1.getSelectedIndex() > 0 || comboOpera2.getSelectedIndex() > 0 && comboNivel2.getSelectedIndex() > 0) {
-            controlFiltro.setNivelObjeto(comboOpera1.getSelectedItem().toString(), comboNivel1.getSelectedItem().toString(), comboOpera2.getSelectedItem().toString(), comboNivel2.getSelectedItem().toString());
+            controlFiltro.setNivelObjeto(comboOpera1.getSelectedItem().toString(), 
+                    comboNivel1.getSelectedItem().toString(), 
+                    comboOpera2.getSelectedItem().toString(), 
+                    comboNivel2.getSelectedItem().toString());
         }
 
         //Calidad objeto
@@ -156,7 +159,12 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
 
         //Colores objeto
         if (comboColor1.getSelectedIndex() > 0 || comboColor2.getSelectedIndex() > 0 || comboColor3.getSelectedIndex() > 0 || comboColor4.getSelectedIndex() > 0 || comboColor5.getSelectedIndex() > 0 || comboColor6.getSelectedIndex() > 0) {
-            controlFiltro.setColoresHuecos(comboColor1.getSelectedItem().toString(), comboColor2.getSelectedItem().toString(), comboColor3.getSelectedItem().toString(), comboColor4.getSelectedItem().toString(), comboColor5.getSelectedItem().toString(), comboColor6.getSelectedItem().toString());
+            controlFiltro.setColoresHuecos(comboColor1.getSelectedItem().toString(), 
+                    comboColor2.getSelectedItem().toString(), 
+                    comboColor3.getSelectedItem().toString(), 
+                    comboColor4.getSelectedItem().toString(), 
+                    comboColor5.getSelectedItem().toString(), 
+                    comboColor6.getSelectedItem().toString());
         }
         
         //Identificado
