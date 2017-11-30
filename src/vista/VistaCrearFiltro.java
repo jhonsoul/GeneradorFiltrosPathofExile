@@ -119,8 +119,10 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         //Clase objeto
         if (!cajaClase.getText().isEmpty()) {
             String textoPlano = cajaClase.getText();
-            textoPlano = textoPlano.trim();
             String texto[] = textoPlano.split(",");
+            for (int i = 0; i < texto.length; i++) {
+                texto[i] = texto[i].trim();
+            }
             String textoCompleto = "";
             for (int i = 0; i < texto.length; i++) {
                 textoCompleto += "\"" +texto[i] + "\" ";
@@ -131,8 +133,10 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         //Base objeto
         if (!cajaBase.getText().isEmpty()) {
             String textoPlano = cajaBase.getText();
-            textoPlano = textoPlano.trim();
             String texto[] = textoPlano.split(",");
+            for (int i = 0; i < texto.length; i++) {
+                texto[i] = texto[i].trim();
+            }
             String textoCompleto = "";
             for (int i = 0; i < texto.length; i++) {
                 textoCompleto += "\"" +texto[i] + "\" ";
