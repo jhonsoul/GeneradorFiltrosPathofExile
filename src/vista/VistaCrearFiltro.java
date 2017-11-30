@@ -5,12 +5,11 @@
  */
 package vista;
 
+import control.Constantes;
 import control.Filtro;
 import java.awt.Color;
 import javax.swing.JColorChooser;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import persistencia.AlmacenaFiltro;
 
 /**
  *
@@ -19,7 +18,7 @@ import persistencia.AlmacenaFiltro;
 public class VistaCrearFiltro extends javax.swing.JFrame {
 
     private Filtro controlFiltro;
-    private AlmacenaFiltro almacen;
+    private VistaMenu menu;
     
     /**
      * Creates new form VistaCrearFiltro
@@ -28,6 +27,10 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         initComponents();
         cargarTextosCombos();
         cargarNumeroCombos();
+    }
+
+    public void setMenu(VistaMenu menu) {
+        this.menu = menu;
     }
 
     private void cargarTextosCombos () {
@@ -115,7 +118,9 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
 
         //Clase objeto
         if (!cajaClase.getText().isEmpty()) {
-            String texto[] = cajaClase.getText().split(",");
+            String textoPlano = cajaClase.getText();
+            textoPlano.replaceAll(" ", "");
+            String texto[] = textoPlano.split(",");
             String textoCompleto = "";
             for (int i = 0; i < texto.length; i++) {
                 textoCompleto += "\"" +texto[i] + "\" ";
@@ -124,12 +129,14 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         }
         //Base objeto
         if (!cajaBase.getText().isEmpty()) {
-            String texto[] = cajaBase.getText().split(",");
+            String textoPlano = cajaBase.getText();
+            textoPlano.replaceAll(" ", "");
+            String texto[] = textoPlano.split(",");
             String textoCompleto = "";
             for (int i = 0; i < texto.length; i++) {
                 textoCompleto += "\"" +texto[i] + "\" ";
             }
-            controlFiltro.setClaseObjeto(textoCompleto);
+            controlFiltro.setTipoBase(textoCompleto);
         }
 
         //Huecos objeto
@@ -201,6 +208,14 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
     private void limitarColores (java.awt.event.KeyEvent e, javax.swing.JTextField caja) {
         char letra = e.getKeyChar();
         if (!Character.isDigit(letra) && !Character.isWhitespace(letra) || caja.getText().length() >= 15) {
+            getToolkit().beep();
+            e.consume();
+        }
+    }
+    
+    private void limitarTextos (java.awt.event.KeyEvent e) {
+        char letra = e.getKeyChar();
+        if (!Character.isLetter(letra) && !Character.isWhitespace(letra) && letra != ',') {
             getToolkit().beep();
             e.consume();
         }
@@ -314,21 +329,26 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         botonLimpiar = new javax.swing.JButton();
         botonCrear = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Creador de secciones");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/recursos/icons8_Filter_64px.png")).getImage());
         setMaximumSize(new java.awt.Dimension(1270, 720));
         setMinimumSize(new java.awt.Dimension(1270, 720));
+        setUndecorated(true);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(92, 38, 38));
+        jPanel1.setBackground(Constantes.COLOR_FONDO);
 
-        jPanel2.setBackground(new java.awt.Color(234, 115, 98));
+        jPanel2.setBackground(Constantes.COLOR_PANELES);
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Identificadores");
-        jLabel1.setToolTipText("Solo llena ña información que necesites");
+        jLabel1.setToolTipText("Solo llena la información que necesites");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Nombre");
@@ -393,8 +413,18 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
 
         cajaClase.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cajaClase.setToolTipText("");
+        cajaClase.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaClaseKeyTyped(evt);
+            }
+        });
 
         cajaBase.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cajaBase.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cajaBaseKeyTyped(evt);
+            }
+        });
 
         comboHuecos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -504,9 +534,7 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(radioVisibleSi)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(comboOpera2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(comboOpera2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboNivel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -569,7 +597,7 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
                         .addComponent(comboNivel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(comboOpera2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(comboNivel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator1))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -615,10 +643,10 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
                     .addComponent(radioIdentificadoNo)
                     .addComponent(radioIdentificadoSi)
                     .addComponent(jLabel12))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(234, 115, 98));
+        jPanel5.setBackground(Constantes.COLOR_PANELES);
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -780,16 +808,22 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        botonLimpiar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botonLimpiar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        botonLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/icons8_Clear_Filters_32px.png"))); // NOI18N
         botonLimpiar.setText("Limpiar");
+        botonLimpiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonLimpiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         botonLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonLimpiarActionPerformed(evt);
             }
         });
 
-        botonCrear.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        botonCrear.setText("Crear");
+        botonCrear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        botonCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/icons8_Save_as_32px.png"))); // NOI18N
+        botonCrear.setText("Guardar");
+        botonCrear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botonCrear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         botonCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonCrearActionPerformed(evt);
@@ -797,40 +831,71 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         });
 
         jLabel21.setFont(new java.awt.Font("Ebrima", 1, 48)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(255, 220, 118));
+        jLabel21.setForeground(Constantes.COLOR_TITULO);
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel21.setText("Generador de filtros Path of Exile");
+        jLabel21.setText("Sección filtro");
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/icons8_Close_Window_32px.png"))); // NOI18N
+        jButton1.setText("Cerrar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/icons8_Menu_32px.png"))); // NOI18N
+        jButton2.setText("Menú");
+        jButton2.setToolTipText("");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
-            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 1296, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(botonCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(botonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(botonCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -842,18 +907,10 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
         if (!cajaNombre.getText().isEmpty() && radioVisibleSi.isSelected() || radioVisibleNo.isSelected()) {
             cargarFiltro();
-            String ruta = "";
-            JFileChooser chooser = new JFileChooser();
-            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                ruta = chooser.getSelectedFile().getAbsolutePath();
-                if (!ruta.endsWith(".filter")) {
-                    ruta = ruta + ".filter";
-                }
-                almacen = new AlmacenaFiltro();
-                boolean guardo = almacen.guardaBloqueFiltro(ruta, controlFiltro.packFiltro());
-                if (guardo) {
-                    limpiarCampos();
-                }
+            String ruta = menu.getAlmacen().rutasGuardar();
+            boolean guardo = menu.getAlmacen().guardaBloqueFiltro(ruta, controlFiltro.packFiltro());
+            if (guardo) {
+                limpiarCampos();
             }
         } else {
             JOptionPane.showMessageDialog(null, "El filtro debe tener como minimo nombre y visibilidad", "Es presento un error", JOptionPane.ERROR_MESSAGE);
@@ -887,6 +944,23 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
     private void botonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_botonLimpiarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        setVisible(false);
+        menu.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cajaClaseKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaClaseKeyTyped
+        limitarTextos(evt);
+    }//GEN-LAST:event_cajaClaseKeyTyped
+
+    private void cajaBaseKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cajaBaseKeyTyped
+        limitarTextos(evt);
+    }//GEN-LAST:event_cajaBaseKeyTyped
 
     /**
      * @param args the command line arguments
@@ -955,6 +1029,8 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
     private javax.swing.ButtonGroup grupoRadioCorrupto;
     private javax.swing.ButtonGroup grupoRadioIdentificado;
     private javax.swing.ButtonGroup grupoRadioVisibilidad;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
