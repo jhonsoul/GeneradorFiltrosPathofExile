@@ -70,14 +70,14 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
         comboCalidad.addItem("");
         comboSonido.addItem("");
         
-        for (int i = 1; i < 101; i++) {
+        for (int i = 100; i > 0; i--) {
             if (i < 7) {
                comboHuecos.addItem(i+""); 
                comboUniones.addItem(i+"");
             }
             
             if (i < 17) {
-                comboSonido.addItem(i+"");
+                comboSonido.addItem(17 - i+"");
             }
             
             if (i < 21) {
@@ -228,7 +228,7 @@ public class VistaCrearFiltro extends javax.swing.JFrame {
     
     private void limitarTextos (java.awt.event.KeyEvent e) {
         char letra = e.getKeyChar();
-        if (!Character.isLetter(letra) && !Character.isWhitespace(letra) && letra != ',') {
+        if (!Character.isLetter(letra) && !Character.isWhitespace(letra) && letra != ',' && letra != '-' && letra != '\'') {
             getToolkit().beep();
             e.consume();
         }
